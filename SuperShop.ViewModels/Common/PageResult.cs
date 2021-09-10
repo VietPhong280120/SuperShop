@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SuperShop.ViewModels.Catalog.Common
+namespace SuperShop.ViewModels.Common
 {
     public class PageResult<T> : PageResultBase
     {
