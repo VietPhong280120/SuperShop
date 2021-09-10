@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SuperShop.Application.Common;
 using SuperShop.Data.EF;
 using SuperShop.Data.Entities;
-using SuperShop.ViewModels.Catalog.Common;
+using SuperShop.ViewModels.Common;
 using SuperShop.ViewModels.Catalog.Products;
 using System;
 using System.Collections.Generic;

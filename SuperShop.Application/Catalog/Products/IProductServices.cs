@@ -1,4 +1,4 @@
-﻿using SuperShop.ViewModels.Catalog.Common;
+﻿using SuperShop.ViewModels.Common;
 using SuperShop.ViewModels.Catalog.Products;
 using System.Threading.Tasks;
 
