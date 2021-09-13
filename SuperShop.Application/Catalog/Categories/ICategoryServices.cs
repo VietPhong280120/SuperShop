@@ -11,7 +11,7 @@ namespace SuperShop.Application.Catalog.Categories
     {
         Task<List<CategoryVm>> GetAll(string languageId);
 
-        Task<CategoryVm> GetById(string languageId, int categoryId);
+        Task<CategoryVm> GetById(int categoryId, string languageId);
 
         Task<int> CreateCategory(CategoryCreateRequest request);
 
