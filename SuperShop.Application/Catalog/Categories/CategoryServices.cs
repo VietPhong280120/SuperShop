@@ -79,7 +79,7 @@ namespace SuperShop.Application.Catalog.Categories
             return data;
         }
 
-        public async Task<CategoryVm> GetById(string languageId, int id)
+        public async Task<CategoryVm> GetById(int id, string languageId)
         {
             var query = from c in _context.Categories
                         join ct in _context.CategoryTranslations on c.Id equals ct.CategoryId

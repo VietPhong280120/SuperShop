@@ -219,7 +219,7 @@ namespace SuperShop.Application.Catalog.Products
 
         public async Task<ProductVm> GetById(int productId, string languageId)
         {
-            var product = await _context.Products.FindAsync();
+            var product = await _context.Products.FindAsync(productId);
             var productTranslation = await _context.ProductTranslations.FirstOrDefaultAsync(x => x.ProductId == productId
             && x.LanguageId == languageId);
             var categories = await (from c in _context.Categories
@@ -246,6 +246,23 @@ namespace SuperShop.Application.Catalog.Products
                 ThumbnailImage = image != null ? image.ImagePath : "no-image.jpg"
             };
             return productVm;
+        }
+
+        public async Task<ProductImageVm> GetImageId(int productId, int imageId)
+        {
+            var image = await _context.ProductImages.FindAsync(productId, imageId);
+            var viewModel = new ProductImageVm()
+            {
+                Id = image.Id,
+                productId = image.ProductId,
+                Caption = image.Caption,
+                dateCreate = image.DateCreated,
+                fileSize = image.Filesize,
+                IsDefault = image.IsDefault,
+                imagePath = image.ImagePath,
+                sortOrder = image.SortOrder
+            };
+            return viewModel;
         }
 
         public async Task<int> RemoveImage(int imageId)

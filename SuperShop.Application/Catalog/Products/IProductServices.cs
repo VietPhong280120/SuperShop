@@ -23,5 +23,7 @@ namespace SuperShop.Application.Catalog.Products
         Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request);
 
         Task<int> RemoveImage(int imageId);
+
+        Task<ProductImageVm> GetImageId(int productId, int imageId);
     }
 }

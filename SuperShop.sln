@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperShop.Web", "SuperShop.Web\SuperShop.Web.csproj", "{0AEBE920-C112-4859-A53F-E0AF5DDFCFEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperShop.Web", "SuperShop.Web\SuperShop.Web.csproj", "{0AEBE920-C112-4859-A53F-E0AF5DDFCFEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperShop.Data", "SuperShop.Data\SuperShop.Data.csproj", "{AFF38C2C-E9DA-4B42-8241-1A7C9E6576A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperShop.Data", "SuperShop.Data\SuperShop.Data.csproj", "{AFF38C2C-E9DA-4B42-8241-1A7C9E6576A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperShop.ViewModels", "SuperShop.ViewModels\SuperShop.ViewModels.csproj", "{9E8E0940-336E-4650-8AAA-D30B6AB75032}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperShop.ViewModels", "SuperShop.ViewModels\SuperShop.ViewModels.csproj", "{9E8E0940-336E-4650-8AAA-D30B6AB75032}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperShop.Application", "SuperShop.Application\SuperShop.Application.csproj", "{594ED3F7-337E-4061-AF51-61DF334AB1F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperShop.Application", "SuperShop.Application\SuperShop.Application.csproj", "{594ED3F7-337E-4061-AF51-61DF334AB1F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperShop.BackendApi", "SuperShop.BackendApi\SuperShop.BackendApi.csproj", "{EA582061-3E7C-4AB8-9ABF-6602504A904A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{594ED3F7-337E-4061-AF51-61DF334AB1F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{594ED3F7-337E-4061-AF51-61DF334AB1F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{594ED3F7-337E-4061-AF51-61DF334AB1F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA582061-3E7C-4AB8-9ABF-6602504A904A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA582061-3E7C-4AB8-9ABF-6602504A904A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA582061-3E7C-4AB8-9ABF-6602504A904A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA582061-3E7C-4AB8-9ABF-6602504A904A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
