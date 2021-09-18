@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SuperShop.Application.Catalog.Categories;
 using SuperShop.ViewModels.Catalog.Categories;
@@ -11,6 +12,7 @@ namespace SuperShop.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryServices _categorySevice;
@@ -22,13 +24,15 @@ namespace SuperShop.BackendApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(string languageId)
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAll([FromQuery] string languageId)
         {
             var category = await _categorySevice.GetAll(languageId);
             return Ok(category);
         }
 
         [HttpGet("{categoryId}/{languageId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(int categoryId, string languageId)
         {
             var category = await _categorySevice.GetById(categoryId, languageId);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SuperShop.Application.Catalog.Products;
 using SuperShop.ViewModels.Catalog.Products;
@@ -11,6 +12,7 @@ namespace SuperShop.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductsController : ControllerBase
     {
         private readonly IProductServices _productServices;
@@ -21,6 +23,7 @@ namespace SuperShop.BackendApi.Controllers
         }
 
         [HttpGet("{paging}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetProductPagingRequest request)
         {
             var product = await _productServices.GetAllPaging(request);
@@ -28,6 +31,7 @@ namespace SuperShop.BackendApi.Controllers
         }
 
         [HttpGet("{productId}/{languageId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(int productId, string languageId)
         {
             var product = await _productServices.GetById(productId, languageId);
@@ -80,6 +84,7 @@ namespace SuperShop.BackendApi.Controllers
         }
 
         [HttpGet("{productId}/images/{imageId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetImageId(int productId, int imageId)
         {
             var image = await _productServices.GetImageId(productId, imageId);
@@ -123,7 +128,6 @@ namespace SuperShop.BackendApi.Controllers
         }
 
         [HttpDelete("{productId}/images/{imageId}")]
-
         public async Task<IActionResult> DeleteImage(int imageId)
         {
             if (!ModelState.IsValid)
