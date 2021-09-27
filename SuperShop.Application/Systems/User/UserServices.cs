@@ -53,8 +53,8 @@ namespace SuperShop.Application.Systems.User
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(_configuration["Token:Issuer"],
-                _configuration["Token:Issuer"],
+            var token = new JwtSecurityToken(_configuration["Tokens:Issuer"],
+                _configuration["Tokens:Issuer"],
                 claim,
                 expires: DateTime.Now.AddHours(1),
                 signingCredentials: creds);

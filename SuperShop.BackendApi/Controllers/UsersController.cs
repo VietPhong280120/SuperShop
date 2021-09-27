@@ -76,7 +76,7 @@ namespace SuperShop.BackendApi.Controllers
             return Ok(user);
         }
 
-        [HttpGet("{paging}")]
+        [HttpGet("paging")]
         public async Task<IActionResult> GetUserPaging([FromQuery] GetUserRequest request)
         {
             var user = await _userServices.GetUserPaging(request);
