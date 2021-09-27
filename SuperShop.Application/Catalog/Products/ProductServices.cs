@@ -226,8 +226,7 @@ namespace SuperShop.Application.Catalog.Products
                                     join ct in _context.CategoryTranslations on c.Id equals ct.CategoryId
                                     join pic in _context.ProductInCategories on c.Id equals pic.CategoryId
                                     where pic.ProductId == productId && ct.LanguageId == languageId
-                                    select ct.Name
-                                    ).ToListAsync();
+                                    select ct.Name).ToListAsync();
             var image = await _context.ProductImages.Where(x => x.ProductId == productId && x.IsDefault == true).FirstOrDefaultAsync();
             var productVm = new ProductVm()
             {

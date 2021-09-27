@@ -4,4 +4,18 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SuperShop.Application\SuperShop.Application.csproj" />
+    <ProjectReference Include="..\SuperShop.Data\SuperShop.Data.csproj" />
+    <ProjectReference Include="..\SuperShop.Utilities\SuperShop.Utilities.csproj" />
+    <ProjectReference Include="..\SuperShop.ViewModels\SuperShop.ViewModels.csproj" />
+  </ItemGroup>
+
 </Project>
