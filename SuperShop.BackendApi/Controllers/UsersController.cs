@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SuperShop.Application.Systems.Roles;
 using SuperShop.Application.Systems.User;
 using SuperShop.ViewModels.Systems.User;
 using System;
@@ -16,10 +17,12 @@ namespace SuperShop.BackendApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserServices _userServices;
+        private readonly IRoleServices _roleServices;
 
-        public UsersController(IUserServices userServices)
+        public UsersController(IUserServices userServices, IRoleServices roleServices)
         {
             _userServices = userServices;
+            _roleServices = roleServices;
         }
 
         [HttpPost("authenticate")]
@@ -38,7 +41,7 @@ namespace SuperShop.BackendApi.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
@@ -103,6 +106,13 @@ namespace SuperShop.BackendApi.Controllers
                 return BadRequest(result);
             }
             return Ok(result);
+        }
+
+        [HttpGet("roles")]
+        public async Task<IActionResult> GetAll()
+        {
+            var roles = await _roleServices.GetAll();
+            return Ok(roles);
         }
     }
 }

@@ -5,76 +5,111 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layoutadmin.cshtml";
 }
-
+@section scripts{
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+}
 <div class="container-fluid px-4">
     <h1 class="mt-4">List User</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active">Dashboard</li>
     </ol>
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-    <div class="card mb-4">
+    <div class="card mb-12">
         <div class="card-header">
-            <i class="fas fa-table me-1"></i>
-            DataTable Example
+            <div class="row">
+                <div class=" col-md-6">
+                    <a class="btn btn-success" asp-action="Create" asp-controller="User">Create</a>
+                </div>
+                <div class="col-md-6">
+                    <form asp-action="Index" method="get">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" placeholder="Search..." />
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                                <button type="button" onclick="window.location.href='/User/Index'" class="btn btn-dark">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="cart-body"></div>
         </div>
-        <div class="card-body">
-            <table id="datatablesSimple">
-                <thead>
-                    <tr>
-                        <th>
-                            UserName
-                        </th>
-                        <th>
-                            FirstName
-                        </th>
-                        <th>
-                            LastName
-                        </th>
-                        <th>
-                            PhoneNumber
-                        </th>
-                        <th>
-                            Email
-                        </th>
-                        <th>
-                            Date of birth
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Items)
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                DataTable Example
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    @if (ViewBag.SuccessMsg != null)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.UserName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.FirstName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.LastName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PhoneNumber)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Email)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Dob)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                            </td>
-                        </tr>
+                        <div id="msgAlert" class="alert alert-success">
+                            @ViewBag.SuccessMsg
+                        </div>
                     }
-                </tbody>
-            </table>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                UserName
+                            </th>
+                            <th>
+                                FirstName
+                            </th>
+                            <th>
+                                LastName
+                            </th>
+                            <th>
+                                PhoneNumber
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Date of birth
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FirstName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LastName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Dob)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Details", "Detail", new { id = item.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                                    @Html.ActionLink("Roles", "RoleAssign", new { id = item.Id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @await Component.InvokeAsync("Pager", Model)
         </div>
     </div>
 </div>
