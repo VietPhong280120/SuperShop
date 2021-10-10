@@ -17,6 +17,7 @@ namespace SuperShop.ViewModels.Systems.User
         public string UserName { get; set; }
 
         [Display(Name = "Date of Birth")]
+        [DataType(DataType.Date)]
         public DateTime Dob { get; set; }
 
         public IList<string> Role { get; set; }
