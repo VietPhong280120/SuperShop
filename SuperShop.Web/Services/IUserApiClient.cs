@@ -18,7 +18,7 @@ namespace SuperShop.Web.Services
 
         Task<ApiResult<bool>> UpdateUser(Guid id, UpdateUserRequest request);
 
-        Task<ApiResult<bool>> DeleteUser(Guid Id);
+        Task<bool> DeleteUser(Guid Id);
 
         Task<ApiResult<UserVm>> GetById(Guid id);
 

@@ -13,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using SuperShop.Application.Catalog.Categories;
 using SuperShop.Application.Catalog.Products;
 using SuperShop.Application.Common;
+using SuperShop.Application.Systems.Language;
 using SuperShop.Application.Systems.Roles;
 using SuperShop.Application.Systems.User;
 using SuperShop.Data.EF;
@@ -45,6 +46,7 @@ namespace SuperShop.BackendApi
 
             //DI
             services.AddTransient<IStorageServices, StorageServieces>();
+            services.AddTransient<ILanguageServices, LanguageServices>();
             services.AddTransient<IProductServices, ProductServices>();
             services.AddTransient<ICategoryServices, CategoryServices>();
             services.AddTransient<IUserServices, UserServices>();

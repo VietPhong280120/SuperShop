@@ -25,5 +25,7 @@ namespace SuperShop.Application.Catalog.Products
         Task<int> RemoveImage(int imageId);
 
         Task<ProductImageVm> GetImageId(int productId, int imageId);
+
+        Task<ApiResult<bool>> CategoryAssign(int id, CategoryAssignRequest request);
     }
 }

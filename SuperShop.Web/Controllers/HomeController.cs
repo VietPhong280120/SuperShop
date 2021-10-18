@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SuperShop.Web.Models;
@@ -24,6 +25,13 @@ namespace SuperShop.Web.Controllers
         {
             var user = User.Identity.Name;
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Language(NavigationViewModel viewModel)
+        {
+            HttpContext.Session.SetString("DefaultLanguage", viewModel.CurrentLanguageId);
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()

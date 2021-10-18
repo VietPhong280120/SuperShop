@@ -47,6 +47,30 @@ namespace SuperShop.Application.Catalog.Products
             return productImage.Id;
         }
 
+        public async Task<ApiResult<bool>> CategoryAssign(int id, CategoryAssignRequest request)
+        {
+            var product = await _context.Products.FindAsync(id);
+            foreach (var category in request.Categories)
+            {
+                var productInCategory = await _context.ProductInCategories.FirstOrDefaultAsync(
+                    x => x.CategoryId == int.Parse(category.Id) && x.ProductId == id);
+                if (productInCategory != null && category.Selected == false)
+                {
+                    _context.ProductInCategories.Remove(productInCategory);
+                }
+                else if (productInCategory == null && category.Selected == true)
+                {
+                    await _context.ProductInCategories.AddAsync(new ProductInCategory()
+                    {
+                        CategoryId = int.Parse(category.Id),
+                        ProductId = id
+                    });
+                }
+            }
+            await _context.SaveChangesAsync();
+            return new ApiSuccessResult<bool>();
+        }
+
         public async Task<int> CreateProduct(ProductCreateRequest request)
         {
             var languages = _context.Languages;
@@ -123,27 +147,28 @@ namespace SuperShop.Application.Catalog.Products
 
         public async Task<PageResult<ProductVm>> GetAllPaging(GetProductPagingRequest request)
         {
-            //1 Select with leftjoin
+            //select
+
             var query = from p in _context.Products
                         join pt in _context.ProductTranslations on p.Id equals pt.ProductId
-                        join pc in _context.ProductInCategories on p.Id equals pc.ProductId into ppc
-                        from pc in ppc.DefaultIfEmpty()
-                        join c in _context.Categories on pc.CategoryId equals c.Id into pic
-                        from c in pic.DefaultIfEmpty()
-                        join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
-                        from pi in ppi.DefaultIfEmpty()
-                        where pt.LanguageId == request.LanguageId && pi.IsDefault == true
-                        select new { p, pt, pc, pi };
-            //2 filter
-            if (!string.IsNullOrEmpty(request.Key))
+                        join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
+                        from pic in ppic.DefaultIfEmpty()
+                        join c in _context.Categories on pic.CategoryId equals c.Id into picc
+                        from c in picc.DefaultIfEmpty()
+                            //join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
+                            //from pi in ppi.DefaultIfEmpty()
+                        where pt.LanguageId == request.LanguageId /*&& pi.IsDefault == true*/
+                        select new { p, pt, pic };
+            //filter
+            if (!string.IsNullOrEmpty(request.Keyword))
             {
-                query = query.Where(x => x.pt.Name.Contains(request.Key));
+                query = query.Where(x => x.pt.Name.Contains(request.Keyword));
             }
             if (request.CategoryId != null && request.CategoryId != 0)
             {
-                query = query.Where(p => p.pc.CategoryId == request.CategoryId);
+                query = query.Where(p => p.pic.CategoryId == request.CategoryId);
             }
-            //3 Paging
+            //paging
             int totalRow = await query.CountAsync();
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize)
@@ -161,17 +186,17 @@ namespace SuperShop.Application.Catalog.Products
                     SeoDescription = x.pt.SeoDescription,
                     SeoTitle = x.pt.SeoTitle,
                     Stock = x.p.Stock,
-                    ThumbnailImage = x.pi.ImagePath
+                    // ThumbnailImage = x.pi.ImagePath
                 }).ToListAsync();
-            //4 select and project
-            var pageResult = new PageResult<ProductVm>()
+            //select and project
+            var pagedResult = new PageResult<ProductVm>()
             {
                 TotalRecord = totalRow,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,
                 Items = data
             };
-            return pageResult;
+            return pagedResult;
         }
 
         public async Task<PageResult<ProductVm>> GetByCategoryId(string languageId, GetProductPagingRequest request)
@@ -236,6 +261,7 @@ namespace SuperShop.Application.Catalog.Products
                 Price = product.Price,
                 OriginalPrice = product.OriginalPrice,
                 Stock = product.Stock,
+                Name = productTranslation != null ? productTranslation.Name : null,
                 Description = productTranslation != null ? productTranslation.Description : null,
                 SeoAlias = productTranslation != null ? productTranslation.SeoAlias : null,
                 Detail = productTranslation != null ? productTranslation.Detail : null,

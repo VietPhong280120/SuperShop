@@ -88,12 +88,12 @@ namespace SuperShop.Web.Controllers
                 return View();
             }
             var result = await _userApiClient.DeleteUser(request.Id);
-            if (result.IsSuccessed)
+            if (result)
             {
                 TempData["result"] = "Delete is successful ! ";
                 return RedirectToAction("Index");
             }
-            ModelState.AddModelError("", result.Message);
+            ModelState.AddModelError("", "Delete is unsuccessful !");
             return View(request);
         }
 
@@ -173,7 +173,7 @@ namespace SuperShop.Web.Controllers
             {
                 roleRequest.Roles.Add(new SelectItem()
                 {
-                    Id = role.Id,
+                    Id = role.Id.ToString(),
                     Name = role.Name,
                     Selected = userObj.ResultObj.Role.Contains(role.Name)
                 });
