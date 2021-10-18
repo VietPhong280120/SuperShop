@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace SuperShop.ViewModels.Catalog.Products
 {
-    public class GetProductPagingRequest : PageResultBase
+    public class CategoryAssignRequest
     {
-        public string Keyword { get; set; }
-        public string LanguageId { get; set; }
-        public int? CategoryId { get; set; }
+        public int Id { get; set; }
+        public List<SelectItem> Categories { get; set; } = new List<SelectItem>();
     }
 }

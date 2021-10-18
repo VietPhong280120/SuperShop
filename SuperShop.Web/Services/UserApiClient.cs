@@ -43,18 +43,10 @@ namespace SuperShop.Web.Services
             return JsonConvert.DeserializeObject<ApiErrorResult<string>>(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<ApiResult<bool>> DeleteUser(Guid id)
+        public async Task<bool> DeleteUser(Guid id)
         {
-            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Tokens");
-            var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.DeleteAsync($"/api/users/{id}");
-            var body = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
-
-            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+            var data = await DeleteAsync($"/api/users/{id}");
+            return data;
         }
 
         public async Task<ApiResult<UserVm>> GetById(Guid id)

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SuperShop.Web.Services
@@ -35,7 +36,6 @@ namespace SuperShop.Web.Services
             if (response.IsSuccessStatusCode)
             {
                 TResponse myDeserializedObjList = (TResponse)JsonConvert.DeserializeObject(body, typeof(TResponse));
-
                 return myDeserializedObjList;
             }
             return JsonConvert.DeserializeObject<TResponse>(body);
@@ -48,12 +48,26 @@ namespace SuperShop.Web.Services
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
             var response = await client.DeleteAsync(url);
+            if (response.IsSuccessStatusCode)
+                return true;
+            return false;
+        }
+
+        public async Task<List<T>> GetListAsync<T>(string url, bool requiredLogin = false)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Tokens");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.GetAsync(url);
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
-                return true;
+                var data = (List<T>)JsonConvert.DeserializeObject(body, typeof(List<T>));
+                return data;
             }
-            return false;
+            return (List<T>)JsonConvert.DeserializeObject(body);
         }
     }
 }

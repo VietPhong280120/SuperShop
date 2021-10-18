@@ -48,6 +48,7 @@ namespace SuperShop.Web.Controllers
                 ModelState.AddModelError("", result.Message);
                 return View();
             }
+            HttpContext.Session.SetString("DefaultLanguage", _configuration["DefaultLanguage"]);
             HttpContext.Session.SetString("Tokens", result.ResultObj);
             var userPrincipal = this.ValidateToken(result.ResultObj);
             var authProperties = new AuthenticationProperties

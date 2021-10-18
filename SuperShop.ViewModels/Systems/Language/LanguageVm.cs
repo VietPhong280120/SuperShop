@@ -4,17 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SuperShop.ViewModels.Common
+namespace SuperShop.ViewModels.Systems.Language
 {
-    public class SelectItem
+    public class LanguageVm
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public bool Selected { get; set; }
-
-        public Object Select()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
