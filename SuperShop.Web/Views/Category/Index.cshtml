@@ -1,6 +1,6 @@
 ﻿@using SuperShop.ViewModels.Common;
-@using SuperShop.ViewModels.Catalog.Products;
-@model PageResult<ProductVm>;
+@using SuperShop.ViewModels.Catalog.Categories;
+@model PageResult<CategoryVm>;
 
 @{
     ViewData["Title"] = "Index";
@@ -13,16 +13,16 @@
     }, 2000);
 </script>
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Products</h1>
+    <h1 class="mt-4">Categories</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-        <li class="breadcrumb-item active">Products</li>
+        <li class="breadcrumb-item active">Categories</li>
     </ol>
     <div class="card mb-12">
         <div class="card-header">
             <div class="row">
                 <div class=" col-md-6">
-                    <a class="btn btn-success" asp-action="Create" asp-controller="Product">Create</a>
+                    <a class="btn btn-success" asp-action="Create" asp-controller="Category">Create</a>
                 </div>
                 <div class="col-md-6">
                     <form asp-action="Index" method="get">
@@ -31,13 +31,8 @@
                                 <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" placeholder="Search..." />
                             </div>
                             <div class="col-md-4">
-                                <select name="categoryid" onchange="this.form.submit()" asp-items="@ViewBag.Categories" class="form-control">
-                                    <option value="value">-----Category-----</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
                                 <button type="submit" class="btn btn-primary">Search</button>
-                                <button type="button" onclick="window.location.href='/Product/Index'" class="btn btn-dark">Reset</button>
+                                <button type="button" onclick="window.location.href='/Category/Index'" class="btn btn-dark">Reset</button>
                             </div>
                         </div>
                     </form>
@@ -54,39 +49,43 @@
                     </div>
                 }
             </div>
-            <table class="table table-bordered">
+            <table class="table">
                 <thead>
                     <tr>
                         <th>
                             Name
                         </th>
+
                         <th>
-                            Price
+                            SeoDescription
                         </th>
                         <th>
-                            OriginalPrice
+                            SeoAlias
                         </th>
                         <th>
-                            Stock
+                            SeoTitle
                         </th>
+
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model.Items)
                     {
                         <tr>
+
                             <td>
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Price)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OriginalPrice)
-                            </td>
 
                             <td>
-                                @Html.DisplayFor(modelItem => item.Stock)
+                                @Html.DisplayFor(modelItem => item.SeoDescription)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SeoAlias)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SeoTitle)
                             </td>
                             <td>
                                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
@@ -99,4 +98,3 @@
         </div>
         @await Component.InvokeAsync("Pager", Model)
     </div>
-</div>

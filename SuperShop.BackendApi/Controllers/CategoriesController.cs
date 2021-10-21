@@ -31,6 +31,14 @@ namespace SuperShop.BackendApi.Controllers
             return Ok(category);
         }
 
+        [HttpGet("paging")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPaging([FromQuery] GetCategoryRequest request)
+        {
+            var category = await _categorySevice.GetPaging(request);
+            return Ok(category);
+        }
+
         [HttpGet("{categoryId}/{languageId}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetById(int categoryId, string languageId)
@@ -56,7 +64,7 @@ namespace SuperShop.BackendApi.Controllers
             return CreatedAtAction(nameof(GetById), new { Id = categoryId }, category);
         }
 
-        [HttpPost("{categoryId}")]
+        [HttpPut("{categoryId}")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UpdateCategory([FromRoute] int categoryId, [FromForm] CategoryUpdateRequest request)
         {
@@ -73,7 +81,7 @@ namespace SuperShop.BackendApi.Controllers
             return Ok();
         }
 
-        [HttpPut("{categoryId}")]
+        [HttpDelete("{categoryId}")]
         public async Task<IActionResult> DeleteCategory(int categoryId)
         {
             var category = await _categorySevice.DeleteCategory(categoryId);

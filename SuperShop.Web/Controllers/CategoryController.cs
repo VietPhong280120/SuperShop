@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Configuration;
-using SuperShop.ViewModels.Catalog.Products;
+using SuperShop.ViewModels.Catalog.Categories;
 using SuperShop.Web.Services;
 using System;
 using System.Collections.Generic;
@@ -11,37 +9,27 @@ using System.Threading.Tasks;
 
 namespace SuperShop.Web.Controllers
 {
-    public class ProductController : Controller
+    public class CategoryController : Controller
     {
-        private readonly IProductApiClient _productApiClient;
         private readonly ICategoryApiClient _categoryApiClient;
 
-        public ProductController(IProductApiClient productApiClient, ICategoryApiClient categoryApiClient)
+        public CategoryController(ICategoryApiClient categoryApiClient)
         {
-            _productApiClient = productApiClient;
             _categoryApiClient = categoryApiClient;
         }
 
-        public async Task<IActionResult> Index(string keyword, int? categoryid, int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 1)
         {
-            var languageid = HttpContext.Session.GetString("DefaultLanguage");
-            var request = new GetProductPagingRequest()
+            var languageId = HttpContext.Session.GetString("DefaultLanguage");
+            var request = new GetCategoryRequest()
             {
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
-                LanguageId = languageid,
-                CategoryId = categoryid
+                LanguageId = languageId,
             };
-            var data = await _productApiClient.GetPaging(request);
+            var data = await _categoryApiClient.GetPaging(request);
             ViewBag.Keyword = keyword;
-            var category = await _categoryApiClient.GetAll(languageid);
-            ViewBag.Categories = category.Select(x => new SelectListItem()
-            {
-                Text = x.Name,
-                Value = x.Id.ToString(),
-                Selected = categoryid.HasValue && categoryid.Value == x.Id
-            });
             if (TempData["result"] != null)
             {
                 ViewBag.SuccessMsg = TempData["result"];
@@ -57,45 +45,45 @@ namespace SuperShop.Web.Controllers
 
         [HttpPost]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
+        public async Task<IActionResult> Create([FromForm] CategoryCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return View(ModelState);
             }
-            var result = await _productApiClient.CreateProduct(request);
+            var result = await _categoryApiClient.CreateCategory(request);
             if (result)
             {
-                TempData["result"] = "Create is Successfull !";
+                TempData["result"] = "Create is successful !";
                 return RedirectToAction("Index");
             }
-            ModelState.AddModelError("", "Create is unsuccess !");
+            ModelState.AddModelError("", "Create is unsuccessful !");
             return View(request);
         }
 
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return View(new ProductDeleteRequest()
+            return View(new CategoryDeleteRequest()
             {
                 Id = id
             });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete([FromForm] ProductDeleteRequest request)
+        public async Task<IActionResult> Delete([FromForm] CategoryDeleteRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return View(request);
+                return View(ModelState);
             }
-            var result = await _productApiClient.DeleteProduct(request.Id);
+            var result = await _categoryApiClient.DeleteCategory(request.Id);
             if (result)
             {
                 TempData["result"] = "Delete is successful !";
                 return RedirectToAction("Index");
             }
-            ModelState.AddModelError("", "Delete is unsuccess !");
+            ModelState.AddModelError("", "Delete is unsuccessful !");
             return View(request);
         }
 
@@ -103,32 +91,27 @@ namespace SuperShop.Web.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var languageId = HttpContext.Session.GetString("DefaultLanguage");
-            var request = await _productApiClient.GetById(id, languageId);
-            var product = new ProductUpdateRequest()
+            var request = await _categoryApiClient.GetById(id, languageId);
+            var category = new CategoryUpdateRequest
             {
                 Id = request.Id,
                 Name = request.Name,
-                Price = (int)request.Price,
-                OriginalPrice = (int)request.OriginalPrice,
-                Stock = request.Stock,
-                Description = request.Description,
                 SeoAlias = request.SeoAlias,
                 SeoTitle = request.SeoTitle,
                 SeoDescription = request.SeoDescription,
-                Detail = request.Detail,
             };
-            return View(product);
+            return View(category);
         }
 
         [HttpPost]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> Edit([FromForm] ProductUpdateRequest request)
+        public async Task<IActionResult> Edit([FromForm] CategoryUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return View(request);
+                return View(ModelState);
             }
-            var result = await _productApiClient.UpdateProduct(request);
+            var result = await _categoryApiClient.UpdateCategory(request);
             if (result)
             {
                 TempData["result"] = "Update is successful !";
