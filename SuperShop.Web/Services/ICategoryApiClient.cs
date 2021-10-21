@@ -1,4 +1,5 @@
 ﻿using SuperShop.ViewModels.Catalog.Categories;
+using SuperShop.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,13 @@ namespace SuperShop.Web.Services
         Task<List<CategoryVm>> GetAll(string languageid);
 
         Task<CategoryVm> GetById(int id, string languageid);
+
+        Task<PageResult<CategoryVm>> GetPaging(GetCategoryRequest request);
+
+        Task<bool> CreateCategory(CategoryCreateRequest request);
+
+        Task<bool> DeleteCategory(int id);
+
+        Task<bool> UpdateCategory(CategoryUpdateRequest request);
     }
 }
