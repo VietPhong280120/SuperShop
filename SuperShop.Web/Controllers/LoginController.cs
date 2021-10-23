@@ -20,10 +20,10 @@ namespace SuperShop.Web.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly IUserApiClient _userApiClient;
+        private readonly IUserApiUser _userApiClient;
         private readonly IConfiguration _configuration;
 
-        public LoginController(IUserApiClient userApiClient, IConfiguration configuration)
+        public LoginController(IUserApiUser userApiClient, IConfiguration configuration)
         {
             _userApiClient = userApiClient;
             _configuration = configuration;

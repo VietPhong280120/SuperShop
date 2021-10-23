@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using SuperShop.ViewModels.Catalog.Products;
+using SuperShop.ViewModels.Common;
 using SuperShop.Web.Services;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,10 @@ namespace SuperShop.Web.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IProductApiClient _productApiClient;
-        private readonly ICategoryApiClient _categoryApiClient;
+        private readonly IProductApiUser _productApiClient;
+        private readonly ICategoryApiUser _categoryApiClient;
 
-        public ProductController(IProductApiClient productApiClient, ICategoryApiClient categoryApiClient)
+        public ProductController(IProductApiUser productApiClient, ICategoryApiUser categoryApiClient)
         {
             _productApiClient = productApiClient;
             _categoryApiClient = categoryApiClient;
@@ -136,6 +137,50 @@ namespace SuperShop.Web.Controllers
             }
             ModelState.AddModelError("", "Update is unsuccessful !");
             return View(request);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CategoryAssign(int id)
+        {
+            var categoryAssign = await GetCategory(id);
+            return View(categoryAssign);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CategoryAssign(CategoryAssignRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(ModelState);
+            }
+            var result = await _productApiClient.CategoryAssign(request.Id, request);
+            if (result.IsSuccessed)
+            {
+                TempData["result"] = "Add category is successful !";
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError("", result.Message);
+            var category = await GetCategory(request.Id);
+            return View(category);
+        }
+
+        private async Task<CategoryAssignRequest> GetCategory(int id)
+        {
+            var languageId = HttpContext.Session.GetString("DefaultLanguage");
+
+            var productObj = await _productApiClient.GetById(id, languageId);
+            var categories = await _categoryApiClient.GetAll(languageId);
+            var categoryAssignRequest = new CategoryAssignRequest();
+            foreach (var role in categories)
+            {
+                categoryAssignRequest.Categories.Add(new SelectItem()
+                {
+                    Id = role.Id.ToString(),
+                    Name = role.Name,
+                    Selected = productObj.Categories.Contains(role.Name)
+                });
+            }
+            return categoryAssignRequest;
         }
     }
 }

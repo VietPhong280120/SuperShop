@@ -17,10 +17,10 @@ namespace SuperShop.Web.Controllers
     [Authorize]
     public class UserController : BaseController
     {
-        private readonly IUserApiClient _userApiClient;
+        private readonly IUserApiUser _userApiClient;
         private readonly IConfiguration _configuration;
 
-        public UserController(IUserApiClient userApiClient, IConfiguration configuration)
+        public UserController(IUserApiUser userApiClient, IConfiguration configuration)
         {
             _userApiClient = userApiClient;
             _configuration = configuration;

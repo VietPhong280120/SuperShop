@@ -11,9 +11,9 @@ namespace SuperShop.Web.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryApiClient _categoryApiClient;
+        private readonly ICategoryApiUser _categoryApiClient;
 
-        public CategoryController(ICategoryApiClient categoryApiClient)
+        public CategoryController(ICategoryApiUser categoryApiClient)
         {
             _categoryApiClient = categoryApiClient;
         }

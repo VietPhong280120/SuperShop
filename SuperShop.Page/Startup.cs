@@ -1,19 +1,15 @@
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SuperShop.ViewModels.Systems.User;
-using SuperShop.Web.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SuperShop.Web
+namespace SuperShop.Page
 {
     public class Startup
     {
@@ -27,34 +23,7 @@ namespace SuperShop.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpClient();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(option =>
-                {
-                    option.LoginPath = "/Login/Login";
-                    option.AccessDeniedPath = "/Login/Forbidden";
-                });
-
-            services.AddControllersWithViews()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
-
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
-            });
-            services.AddTransient<IUserApiUser, UserApiUser>();
-            services.AddTransient<IProductApiUser, ProductApiUser>();
-            services.AddTransient<ICategoryApiUser, CategoryApiUser>();
-            services.AddTransient<ILanguageApiUser, LanguageApiUser>();
-            IMvcBuilder builder = services.AddRazorPages();
-            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-#if DEBUG
-            if (environment == Environments.Development)
-            {
-                builder.AddRazorRuntimeCompilation();
-            }
-#endif
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,11 +41,11 @@ namespace SuperShop.Web
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseAuthentication();
+
             app.UseRouting();
 
             app.UseAuthorization();
-            app.UseSession();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

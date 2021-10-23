@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace SuperShop.Web.Services
 {
-    public class ProductApiClient : BaseApiClient, IProductApiClient
+    public class ProductApiUser : BaseApiUser, IProductApiUser
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProductApiClient(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory,
+        public ProductApiUser(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory,
             IConfiguration configuration) : base(httpClientFactory, configuration, httpContextAccessor)
         {
             _configuration = configuration;
@@ -119,6 +119,7 @@ namespace SuperShop.Web.Services
         {
             var client = _httpClientFactory.CreateClient();
             var session = _httpContextAccessor.HttpContext.Session.GetString("Tokens");
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             var json = JsonConvert.SerializeObject(request);
             var httpContext = new StringContent(json, Encoding.UTF8, "application/json");

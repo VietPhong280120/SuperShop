@@ -11,9 +11,9 @@ namespace SuperShop.Web.Controllers.Components
 {
     public class NavigationViewComponent : ViewComponent
     {
-        private readonly ILanguageApiClient _languageApiClient;
+        private readonly ILanguageApiUser _languageApiClient;
 
-        public NavigationViewComponent(ILanguageApiClient languageApiClient)
+        public NavigationViewComponent(ILanguageApiUser languageApiClient)
         {
             _languageApiClient = languageApiClient;
         }

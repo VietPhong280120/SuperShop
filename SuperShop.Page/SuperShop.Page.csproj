@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SuperShop.Application\SuperShop.Application.csproj" />
+    <ProjectReference Include="..\SuperShop.Data\SuperShop.Data.csproj" />
+    <ProjectReference Include="..\SuperShop.Utilities\SuperShop.Utilities.csproj" />
+    <ProjectReference Include="..\SuperShop.ViewModels\SuperShop.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

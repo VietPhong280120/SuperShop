@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperShop.Application", "Su
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperShop.BackendApi", "SuperShop.BackendApi\SuperShop.BackendApi.csproj", "{EA582061-3E7C-4AB8-9ABF-6602504A904A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperShop.Utilities", "SuperShop.Utilities\SuperShop.Utilities.csproj", "{7971B1FB-7C08-4202-895F-AE6D217D0616}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperShop.Utilities", "SuperShop.Utilities\SuperShop.Utilities.csproj", "{7971B1FB-7C08-4202-895F-AE6D217D0616}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperShop.Page", "SuperShop.Page\SuperShop.Page.csproj", "{AF0BD172-36D8-459A-BDB9-230EB65958E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{7971B1FB-7C08-4202-895F-AE6D217D0616}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7971B1FB-7C08-4202-895F-AE6D217D0616}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7971B1FB-7C08-4202-895F-AE6D217D0616}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF0BD172-36D8-459A-BDB9-230EB65958E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF0BD172-36D8-459A-BDB9-230EB65958E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF0BD172-36D8-459A-BDB9-230EB65958E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF0BD172-36D8-459A-BDB9-230EB65958E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
